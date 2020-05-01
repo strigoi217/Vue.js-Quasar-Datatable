@@ -1,0 +1,148 @@
+<html>
+    <head>
+        <title>VueJS-Currency-Converter</title>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    </head>
+    <body>
+      <style>
+        #app{
+           padding: 20px 15px 15px 15px;
+           margin: 0 0 25px 0;
+           width: auto;
+        }
+
+        .Table{
+           display: table;
+           width:80%;
+        }
+        .Title{
+           display: table-caption;
+           text-align: center;
+           font-weight: bold;
+           font-size: larger;
+        }
+        .Heading{
+           display: table-row;
+           font-weight: bold;
+           text-align: center;
+        }
+        .Row{
+           display: table-row;
+        }
+        .Cell{
+           display: table-cell;
+           border: solid;
+           border-width: thin;
+           padding-left: 5px;
+           padding-right: 5px;
+           width:30%;
+        }
+     </style>
+        <div id="app">
+          <v-app id="inspire">
+              <v-container>
+                <v-row no-gutters>
+                  <v-layout d-flex align-center justify-center>
+                    <h1 class="display-1 font-weight-bold mb-3 mt-5 red--text">Customer Vue Examples</h1>
+                  </v-layout>
+                  <v-layout d-flex align-center justify-space-around>
+                    <v-text-field
+                      v-model="name"
+                      :rules="rules.name"
+                      color="purple darken-2"
+                      label="Name"
+                      class="pa-2"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      v-model="addr"
+                      :rules="rules.addr"
+                      color="blue darken-2"
+                      label="Address"
+                      class="pa-2"
+                      required
+                    ></v-text-field>
+
+                    <v-select
+                      v-model="optionvalue"
+                      :items="option"
+                      :rules="rules.option"
+                      color="pink"
+                      label="Favorite Option"
+                      item-value="val"
+                      class="pa-2"
+                      required
+                    ></v-select>
+
+                    <v-btn color="green darken-1" @click="showdata">Add</v-btn>
+                    
+                  </v-layout>
+                  <br>
+                  <br>
+                  <v-data-table
+                  :headers="headers"
+                  :items="custdet"
+                  hide-action
+                  item-key="name">
+                    <template v-slot:item.actions="{ item }">
+                      <v-icon
+                        small
+                        @click="deleteItem(item)"
+                      >
+                        mdi-delete
+                      </v-icon>
+                    </template>
+                  </v-data-table>
+                </v-row>
+              </v-container>
+          </v-app>
+          
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+
+        <script type = "text/javascript">
+          var vm = new Vue({
+            el: '#app',
+            vuetify: new Vuetify(),
+            data: {
+              headers: [
+                { text: 'Name', value: 'name', align: 'left', sortable: false },
+                { text: 'Address', value: 'addr', sortable: false },
+                { text: 'Option', value: 'option', sortable: false },
+                { text: 'Actions', value: 'actions', align: 'center', sortable: false },
+              ],
+              name:'',
+              addr : '',
+              optionvalue: '',
+              custdet:[],
+              editedIndex: -1,
+              rules: {
+                name: [val => (val || '').length > 0 || 'This field is required'],
+                addr: [val => (val || '').length > 0 || 'This field is required'],
+                option: [val => (val || '').length > 0 || 'This field is required'],
+              },
+              option: ['1', '2', '3', '4'],                
+            },
+            methods :{
+              showdata : function() {
+                this.custdet.push({
+                    name: this.name,
+                    addr : this.addr,
+                    option: this.optionvalue
+                });
+              },
+              deleteItem (item) {
+                const index = this.custdet.indexOf(item)
+                confirm('Are you sure you want to delete this item?') && this.custdet.splice(index, 1)
+              },
+            },
+         });
+       </script>
+    </body>
+</html>
